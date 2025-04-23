@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("KafkaConsumer")
  
 try:
-    logger.info("=================================================== Initializing Spark session ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Initializing Spark session ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Initializing Spark Session
     spark = SparkSession.builder \
@@ -19,7 +19,7 @@ try:
         .config("spark.sql.legacy.timeParserPolicy", "LEGACY") \
         .getOrCreate()
  
-    logger.info("=================================================== Spark session successfully initialized ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Spark session successfully initialized ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Defining the schema for Kafka messages
     schema = StructType([
@@ -41,7 +41,7 @@ try:
         .option("kafka.session.timeout.ms", "120000") \
         .load()
  
-    logger.info("=================================================== Successfully connected to Kafka topic ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Successfully connected to Kafka topic ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Printing raw Kafka data to the console
     raw_query = kafka_df.select(col("value").cast("string").alias("raw_data"))
@@ -50,14 +50,14 @@ try:
         .outputMode("append") \
         .start()
  
-    logger.info("=================================================== Raw Kafka data is being printed to the console ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Raw Kafka data is being printed to the console ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Deserializing Kafka data and applying schema
     parsed_df = kafka_df.select(
         from_json(col("value").cast("string"), schema).alias("data")
     ).filter(col("data").isNotNull())
  
-    logger.info("=================================================== Kafka data successfully parsed and validated ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Kafka data successfully parsed and validated ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Transforming the filtered data
     transformed_df = parsed_df.select(
@@ -79,7 +79,7 @@ try:
         .outputMode("append") \
         .start()
  
-    logger.info("=================================================== Transformed data is being printed to the console ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Transformed data is being printed to the console ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Writing the transformed data to Delta table
     delta_stream = transformed_df.writeStream \
@@ -89,7 +89,7 @@ try:
         .start("/home/xs532-mahjat/Downloads/data_ai/delta/tables/wind_data")
  
  
-    logger.info("=================================================== Delta table write initialized successfully ===================================================")
+    logger.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Delta table write initialized successfully ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
  
     # Waiting for the stream to finish
     delta_stream.awaitTermination()
