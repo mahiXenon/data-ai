@@ -54,3 +54,15 @@ spark.sql("""
 mapped_df = spark.table("mapping_table")
 mapped_df.show(truncate=False)
 print(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'Mapped signal name created using spark sql'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+renamed_mapped_df = generation_indicator
+
+for row in broadcast(mapped_df).collect():
+    sig_name = row["sig_name"]
+    sig_mapping_name = row["sig_mapping_name"]
+    if sig_name in renamed_mapped_df.columns:
+        renamed_mapped_df = renamed_mapped_df.withColumnRenamed(sig_name, sig_mapping_name)
+
+renamed_mapped_df.show(truncate=False)
+print(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'Renamed signal name using broadcast join'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
