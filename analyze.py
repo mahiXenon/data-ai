@@ -29,13 +29,13 @@ avg_signal_value.show(truncate=False)
 print(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'AVG value of signal_ts'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
 
-generation_indicator = avg_signal_value.withColumn("generation_indicator",
+gen_indicator = avg_signal_value.withColumn("generation_indicator",
     when((col("avg_ActivePower_kW") < 200), "Low")
     .when((col("avg_ActivePower_kW") >= 200) & (col("avg_ActivePower_kW") < 600), "Medium")
     .when((col("avg_ActivePower_kW") >= 600) & (col("avg_ActivePower_kW") < 1000), "High")
     .otherwise("Exceptional")
 )
-generation_indicator.show(truncate=False)
+gen_indicator.show(truncate=False)
 print(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'Generation indicator'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
 spark.sql("""
@@ -55,7 +55,7 @@ mapped_df = spark.table("mapping_table")
 mapped_df.show(truncate=False)
 print(f"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'Mapped signal name created using spark sql'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
 
-renamed_mapped_df = generation_indicator
+renamed_mapped_df = gen_indicator
 
 for row in broadcast(mapped_df).collect():
     sig_name = row["sig_name"]

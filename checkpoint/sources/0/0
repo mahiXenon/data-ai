@@ -1,6 +1,8 @@
 v1
 {"path":"file:///home/xs532-mahjat/Downloads/data_ai/input.csv","timestamp":1744890653921,"batchId":0}
-{"path":"file:///home/xs532-mahjat/Downloads/data_ai/try.py","timestamp":1745221705053,"batchId":0}
-{"path":"file:///home/xs532-mahjat/Downloads/data_ai/consumer.py","timestamp":1745238373245,"batchId":0}
 {"path":"file:///home/xs532-mahjat/Downloads/data_ai/docker-compose.yml","timestamp":1745243013785,"batchId":0}
 {"path":"file:///home/xs532-mahjat/Downloads/data_ai/producer.py","timestamp":1745244129112,"batchId":0}
+{"path":"file:///home/xs532-mahjat/Downloads/data_ai/read-data-from-delta-lake.py","timestamp":1745307573021,"batchId":0}
+{"path":"file:///home/xs532-mahjat/Downloads/data_ai/try.py","timestamp":1745314287721,"batchId":0}
+{"path":"file:///home/xs532-mahjat/Downloads/data_ai/consumer.py","timestamp":1745315529939,"batchId":0}
+{"path":"file:///home/xs532-mahjat/Downloads/data_ai/analyze.py","timestamp":1745411898797,"batchId":0}
